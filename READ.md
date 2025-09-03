@@ -1,182 +1,71 @@
-## 🚀 Desafio Prático: **Deploy Completo de uma API de Controle de Tarefas com CI/CD e Infraestrutura como Código**
+🚀 API RESTful de Gerenciamento de Usuários
+Este projeto demonstra a criação de uma API RESTful completa, utilizando Python e MySQL, com uma infraestrutura robusta e automatizada. Ele segue as boas práticas de desenvolvimento e DevOps, incluindo containerização com Docker, gerenciamento de infraestrutura como código (IaC) com Terraform e automação de CI/CD com GitHub Actions.
 
-Este desafio tem como objetivo construir uma **API RESTful em Python** que gerencia tarefas de usuários (como um mini Trello), salvando em um banco de dados MySQL, totalmente automatizada com **Docker, Terraform, AWS e GitHub Actions**.
+🌟 Visão Geral
+O objetivo principal deste projeto é criar uma API simples para gerenciar usuários, mas com foco especial na sua implantação e automação. A aplicação permite realizar operações básicas (CRUD): criar, ler, atualizar e deletar usuários.
 
----
+A arquitetura do projeto é dividida em várias etapas:
 
-### 🎯 Objetivos
+API em Python: Uma API RESTful que recebe e envia dados no formato JSON.
 
-* Criar uma API Python que permita **cadastrar, listar, editar e deletar tarefas**.
-* Containerizar a aplicação com **Docker**.
-* Subir a imagem para o **DockerHub**.
-* Provisionar uma **instância EC2 com Terraform na AWS**.
-* Automatizar o **deploy com GitHub Actions (CI/CD)**.
+Banco de Dados MySQL: Um banco de dados relacional para persistir as informações dos usuários.
 
----
+Containerização com Docker: A aplicação e o banco de dados são empacotados em contêineres para garantir um ambiente de desenvolvimento e produção consistente.
 
-### 📥 Entradas da API
+Automação de Infraestrutura com Terraform: Criação de uma instância AWS EC2 de forma programática.
 
-#### Rota: `POST /tarefas`
+CI/CD com GitHub Actions: Automação do build, teste e deploy do projeto, garantindo atualizações contínuas e automáticas.
 
-```json
-{
-  "titulo": "Estudar Python",
-  "descricao": "Praticar funções e listas",
-  "concluida": false
-}
-```
+🛠️ Tecnologias Utilizadas
+Linguagem de Programação: Python
 
----
+Frameworks Web: Flask ou FastAPI (mencione qual você está usando)
 
-### 📤 Saída esperada
+Banco de Dados: MySQL
 
-```json
-{
-  "message": "Tarefa criada com sucesso",
-  "id": 1
-}
-```
+Containerização: Docker e Docker Compose
 
----
+Infraestrutura como Código (IaC): Terraform
 
-### 🗃️ Banco de Dados
+Provedor de Nuvem: AWS (Amazon Web Services)
 
-**Banco**: MySQL
-**Tabela**: `tarefas`
-**Colunas**:
+CI/CD: GitHub Actions
 
-* `id` (auto increment, chave primária)
-* `titulo` (varchar)
-* `descricao` (text)
-* `concluida` (boolean)
-* `data_criacao` (timestamp automático)
+📦 Como Rodar o Projeto Localmente
+Siga os passos abaixo para executar a API e o banco de dados na sua máquina usando Docker Compose. Certifique-se de ter o Docker instalado.
 
----
+Clone o Repositório:
 
-### 📦 Stack Técnica
+Bash
 
-* **Python (FastAPI ou Flask)**
-* **MySQL**
-* **Docker e Docker Compose**
-* **Terraform (EC2 AWS)**
-* **GitHub Actions (CI/CD)**
-* **DockerHub (publicação de imagem)**
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+Inicie os Contêineres:
+O Docker Compose irá construir a imagem da sua API, iniciar o contêiner do banco de dados MySQL e conectá-los.
 
----
+Bash
 
-### 📁 Estrutura do Projeto (Sugerida)
+docker-compose up --build
+Acesse a API:
+Após os contêineres estarem em execução, a API estará acessível em http://localhost:5000.
 
-```
-task-api/
-├── app.py
-├── models.py
-├── database.py
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── .env
-terraform/
-├── main.tf
-├── variables.tf
-└── modules/
-    └── ec2/
-        └── main.tf
-        └── variables.tf
-        └── outputs.tf
-.github/
-└── workflows/
-    └── deploy-app.yml
-    └── deploy-infra.yml
-README.md
-```
+🚧 Status do Projeto
+Este projeto está em desenvolvimento contínuo. Atualmente, o foco é a etapa de containerização com Docker e Docker Compose.
 
----
+Status atual:
 
-### 🧪 Funcionalidades da API
+✔️ Dockerfile criado.
 
-* `POST /tarefas`: Cadastra uma nova tarefa
-* `GET /tarefas`: Lista todas as tarefas
-* `PUT /tarefas/{id}`: Atualiza uma tarefa existente
-* `DELETE /tarefas/{id}`: Remove uma tarefa do sistema
+✔️ docker-compose.yml configurado para orquestrar a API e o banco de dados.
 
----
+✔️ Imagens Docker criadas com sucesso.
 
-### ⚙️ Etapas do Desafio
+Próximos passos:
 
-#### 1. Desenvolver a API em Python
+Corrigir o problema de dependência: Atualmente, a API está encerrando inesperadamente ao tentar conectar com o contêiner do MySQL. Estou investigando e trabalhando para resolver esse problema de conexão entre os serviços.
 
-* Criar endpoints CRUD para tarefas.
-* Validar dados de entrada.
-* Conectar com banco MySQL.
+Publicar a imagem no DockerHub.
 
-#### 2. Containerizar com Docker
+Implementar o provisionamento da infraestrutura com Terraform.
 
-* Criar um `Dockerfile` que:
-
-  * Instala dependências
-  * Expõe porta da API
-  * Roda a aplicação
-
-#### 3. Subir API e MySQL com Docker Compose
-
-* Usar `.env` para variáveis
-* Testar localmente antes do deploy
-
-#### 4. Publicar a imagem no DockerHub
-
-* Criar conta
-* Fazer build + push da imagem
-
-#### 5. Provisionar uma EC2 com Terraform
-
-* Instalar Docker via `remote-exec`
-* Rodar o container com a imagem da API
-
-#### 6. Automatizar com GitHub Actions
-
-* Criar pipeline com os jobs:
-
-  * `build`: Build da imagem Docker
-  * `push`: Push no DockerHub
-  * `deploy`: Deploy automático na EC2 via SSH
-
----
-
-### 🔐 GitHub Secrets necessários
-
-| Variável          | Descrição                  |
-| ----------------- | -------------------------- |
-| `DOCKER_USERNAME` | Usuário do DockerHub       |
-| `DOCKER_PASSWORD` | Senha/token do DockerHub   |
-| `EC2_HOST`        | IP da EC2                  |
-| `EC2_USER`        | Usuário (ex: ubuntu)       |
-| `AWS_SSH_KEY`     | Chave SSH privada (base64) |
-
----
-
-### ✅ Critérios de Entrega
-
-* API funcional com rotas de tarefas (CRUD).
-* Banco rodando via Docker Compose.
-* Imagem da API publicada no DockerHub.
-* Infra criada automaticamente com Terraform.
-* CI/CD com deploy automático via GitHub Actions.
-
----
-
-### 🧠 Extras (opcional)
-
-* Adicionar autenticação com JWT
-* Filtrar tarefas por status (`/tarefas?concluida=true`)
-* Armazenar variáveis no AWS SSM Parameter Store
-* Usar NGINX como proxy reverso
-
----
-
-Se quiser, posso te ajudar a montar:
-
-* A estrutura inicial do projeto
-* O código da API com validações
-* O Dockerfile e `docker-compose.yml`
-* O Terraform modularizado
-* Os workflows do GitHub Actions prontos para uso
+Configurar os pipelines de CI/CD com GitHub Actions
